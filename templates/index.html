@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Top 10 Movies
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if current_user.is_authenticated: %}
+        <h1 class="text-center">Welcome to Your Top 10 Movies, {{ current_user.name }}!</h1>
+        <p class="lead text-center">Discover your favorite movies and explore new ones!</p>
+    {% else: %}
+        <h1 class="text-center">Welcome to My Top 10 Movies!</h1>
+        <p class="lead text-center">Discover your favorite movies and explore new ones!</p>
+    {% endif %}
+</div>
+{% endblock %}

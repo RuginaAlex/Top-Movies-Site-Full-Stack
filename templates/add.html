@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block title %}Add Movie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="heading-dark">Select Movie</h1>
+
+    <!-- Formular pentru căutare -->
+    <div class="content">
+        {{ render_form(form, novalidate=True) }}
+    </div>
+
+    <!-- Afișează rezultatele ca un grid de carduri -->
+    {% if options %}
+    <div class="movies-grid">
+        {% for movie in options %}
+        <div class="card card-dark">
+            <div class="front front-dark" style="background-image: url('{{ "https://image.tmdb.org/t/p/w500" ~ movie.poster_path if movie.poster_path else "/static/default-movie.jpg" }}');">
+                <p class="large">{{ movie.title }}</p>
+            </div>
+            <div class="back back-dark">
+                <div>
+                    <div class="title">{{ movie.title }} <span class="release_date">({{ movie.release_date if movie.release_date else "N/A" }})</span></div>
+                    <p class="overview">{{ movie.overview[:100] if movie.overview else "No description available." }}...</p>
+                    <a href="{{ url_for('find_movie', id=movie.id) }}" class="button button-dark">Select</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

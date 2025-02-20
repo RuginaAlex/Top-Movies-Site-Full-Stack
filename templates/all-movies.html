@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}My Top 10 Movies{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="heading-dark">All Movies</h1>
+  <p class="description-dark">Here is a list of all movies sorted by rating.</p>
+    <!-- Flash Messages (Evităm mesajele de login) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="container">
+            {% for category, message in messages %}
+                {% if category != "login-error" %}  {# Evităm mesajele de login aici #}
+                <div class="alert alert-danger text-center" role="alert">
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+  {% for movie in movies %}
+  <div class="card card-dark">
+    <div class="front front-dark" style="background-image: url('{{ movie.img_url }}');">
+        <p class="large">{{ movie.ranking }}</p>
+    </div>
+    <div class="back back-dark">
+        <div>
+            <div class="title">{{ movie.title }} <span class="release_date">({{ movie.year }})</span></div>
+            <div class="rating">
+                <label>{{ movie.rating }}</label>
+                <i class="fas fa-star star"></i>
+            </div>
+            <p class="review">"{{ movie.review }}"</p>
+            <p class="overview">{{ movie.description }}</p>
+            <a href="{{url_for('edit', id=movie.id)}}" class="button button-dark">Update</a>
+            <a href="{{url_for('delete', id=movie.id)}}" class="button button-dark delete-button">Delete</a>
+        </div>
+    </div>
+</div>
+
+  {% endfor %}
+<div class="container text-center add-dark" style="position: relative;margin-top: 50px;">
+    <a href="{{url_for('add_movie')}}" class="button-add" id="addButton">Add Movie</a>
+    <div class="popcorn-bucket"></div> <!-- Punga de popcorn la hover -->
+</div>
+
+
+
+{% endblock %}

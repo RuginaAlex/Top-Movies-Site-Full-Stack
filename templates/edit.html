@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% from 'bootstrap5/form.html' import render_form %}
+{% block title %}Edit Movies{% endblock %} {% block content %}
+<div class="content">
+  <h1 class="heading">{{ movie.title }}</h1>
+  <p class="description">Edit Movie Rating</p>
+    {{ render_form(form, novalidate=True) }}
+
+
+</div>
+
+    <script>
+    document.getElementById("addButton").addEventListener("click", function(event) {
+
+
+        let button = event.target;
+        let url = button.href; // Salvează link-ul butonului
+
+
+        for (let i = 0; i < 10; i++) {
+            let popcorn = document.createElement("div");
+            popcorn.classList.add("popcorn");
+
+            // Generăm dimensiuni și rotații diferite pentru efect realist
+            let size = Math.random() * 15 + 15; // Între 15px și 30px
+            popcorn.style.width = size + "px";
+            popcorn.style.height = size + "px";
+
+            // Poziții aleatoare pentru efect
+            let x = (Math.random() - 0.5) * 100 + "px";
+            let y = (Math.random() - 1) * 100 + "px";
+            let xEnd = (Math.random() - 0.5) * 150 + "px";
+            let yEnd = (Math.random() - 1.5) * 150 + "px";
+
+            popcorn.style.setProperty("--x", x);
+            popcorn.style.setProperty("--y", y);
+            popcorn.style.setProperty("--x-end", xEnd);
+            popcorn.style.setProperty("--y-end", yEnd);
+
+            let rect = button.getBoundingClientRect();
+            popcorn.style.left = rect.left + rect.width / 2 + "px";
+            popcorn.style.top = rect.top + rect.height / 2 + "px";
+
+            document.body.appendChild(popcorn);
+
+            // Ștergem bucățile după animație
+            setTimeout(() => {
+                popcorn.remove();
+            }, 600);
+        }
+
+        // Așteptăm 0.6 secunde, apoi schimbăm pagina
+        setTimeout(() => {
+            window.location.href = url;
+        }, 900);
+    });
+</script>
+
+{% endblock %}

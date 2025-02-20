@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Select Movie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="heading-dark">Select Movie</h1>
+
+    <!-- Afișează rezultatele ca un grid de carduri -->
+    {% if options %}
+    <div class="movies-grid">
+        {% for movie in options %}
+        <div class="card card-dark">
+            <div class="front front-dark" style="background-image: url('{{ "https://image.tmdb.org/t/p/w500" ~ movie.poster_path if movie.poster_path else "/static/default-movie.jpg" }}');">
+                <p class="large">{{ movie.title }}</p>
+            </div>
+            <div class="back back-dark">
+                <div>
+                    <div class="title">{{ movie.title }} <span class="release_date">({{ movie.release_date if movie.release_date else "N/A" }})</span></div>
+                    <p class="overview">{{ movie.overview[:100] if movie.overview else "No description available." }}...</p>
+                    <a href="{{ url_for('find_movie', id=movie.id) }}" class="button button-dark" id="addButton">Select</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-white">No results found. Try another title.</p>
+    {% endif %}
+</div>
+
+
+    <script>
+    document.getElementById("addButton").addEventListener("click", function(event) {
+        event.preventDefault(); // Oprește navigarea instantă
+
+        let button = event.target;
+        let url = button.href; // Salvează link-ul butonului
+
+        for (let i = 0; i < 10; i++) {
+            let popcorn = document.createElement("div");
+            popcorn.classList.add("popcorn");
+
+            // Generăm dimensiuni și rotații diferite pentru efect realist
+            let size = Math.random() * 15 + 15; // Între 15px și 30px
+            popcorn.style.width = size + "px";
+            popcorn.style.height = size + "px";
+
+            // Poziții aleatoare pentru efect
+            let x = (Math.random() - 0.5) * 100 + "px";
+            let y = (Math.random() - 1) * 100 + "px";
+            let xEnd = (Math.random() - 0.5) * 150 + "px";
+            let yEnd = (Math.random() - 1.5) * 150 + "px";
+
+            popcorn.style.setProperty("--x", x);
+            popcorn.style.setProperty("--y", y);
+            popcorn.style.setProperty("--x-end", xEnd);
+            popcorn.style.setProperty("--y-end", yEnd);
+
+            let rect = button.getBoundingClientRect();
+            popcorn.style.left = rect.left + rect.width / 2 + "px";
+            popcorn.style.top = rect.top + rect.height / 2 + "px";
+
+            document.body.appendChild(popcorn);
+
+            // Ștergem bucățile după animație
+            setTimeout(() => {
+                popcorn.remove();
+            }, 600);
+        }
+
+        // Așteptăm 0.6 secunde, apoi schimbăm pagina
+        setTimeout(() => {
+            window.location.href = url;
+        }, 900);
+    });
+</script>
+{% endblock %}
