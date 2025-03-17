@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
 Bootstrap5(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URL')
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URL',"sqlite:///top-films.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
