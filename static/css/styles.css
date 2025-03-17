@@ -148,6 +148,56 @@
     transform: rotateY(0deg);
 }
 
+/* Card cu fața luminoasă și spatele întunecat */
+.card-light-dark {
+    background: #2c2c2c;  /* Fundalul rămâne dark */
+    border: 1px solid #444;
+    color: white;
+}
+
+/* Fața cardului - fără efect de întunecare */
+.front-light {
+    display: flex;
+    border-radius: 6px;
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: ease-in-out 600ms;
+}
+
+/* Spatele cardului rămâne dark */
+.back-dark {
+    background: #333;
+    color: white;
+    transform: rotateY(-180deg);
+    padding: 0 2em;
+}
+
+.card-light-dark:hover .front-light {
+    transform: rotateY(180deg);
+}
+
+.card-light-dark:hover .back-dark {
+    transform: rotateY(0deg);
+}
+
+.card-light-dark:nth-child(even) .back-dark {
+    transform: rotateY(180deg);
+}
+.card-light-dark:nth-child(even):hover .back-dark {
+    transform: rotateY(0deg);
+}
+
+
+
 
 .button-final{
     cursor: pointer;
@@ -159,6 +209,27 @@
     border: none;
     transition: 300ms ease;
 }
+
+.orange-title {
+    color: white; /* Culoare text portocaliu */
+    font-weight: bold;
+    font-size: 24px;
+    display: block; /* Elimină flexbox pentru a permite alinierea la stânga */
+    text-align: left; /* Aliniază textul la stânga */
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.orange-title::after {
+    content: "";
+    position: absolute;
+    left: 0; /* Linia începe din stânga */
+    bottom: 0;
+    width: 100%; /* Linia se întinde pe toată lățimea containerului */
+    height: 3px; /* Grosimea liniei */
+    background-color: #FFA500; /* Culoarea liniei */
+}
+
 
 /* Butoane */
 .button, .button-dark {
@@ -423,3 +494,95 @@
 }
 
 
+.white-icon{
+    color:white;
+}
+
+
+
+/* Styles for the about page */
+
+/* General Container */
+/* ---------- CONTAINER ---------- */
+.container-about {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px;
+}
+
+/* ---------- TITLU PRINCIPAL ---------- */
+.h1-about {
+    font-size: 2.8rem;
+    margin-bottom: 65px;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/* ---------- CARD-URI SECTIUNI ---------- */
+.card-about {
+
+    border: 1px solid rgba(255, 165, 0, 0.2); /* Border subtil portocaliu transparent */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    padding: 25px;
+    margin-bottom: 20px;
+    height: 100%; /* Carduri egale */
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ---------- HOVER EFFECT ---------- */
+.card-about:hover {
+    background: #333333; /* Un pic mai deschis la hover */
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.15);
+}
+
+/* ---------- TITLURI SECTIUNI ---------- */
+.card-about h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 3px solid orange;
+    display: inline-block;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+/* ---------- ICONITE ---------- */
+.card-about h3 i {
+    margin-right: 8px;
+    color: orange;
+    font-size: 1.4rem;
+}
+
+/* ---------- TEXT SI LISTE ---------- */
+.card-about p,
+.card-about li {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 12px;
+    color: #ddd; /* Text usor mai alb pentru contrast */
+}
+
+/* ---------- LINK-URI ---------- */
+.card-about a {
+    color: orange;
+    text-decoration: none;
+}
+
+.card-about a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .card-about {
+        padding: 20px;
+    }
+    .h1-about {
+        font-size: 2.2rem;
+
+    }
+    .card-about h3 {
+        font-size: 1.3rem;
+    }
+}

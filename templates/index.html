@@ -1,17 +1,213 @@
 {% extends 'base.html' %}
 
 {% block title %}
-My Top 10 Movies
+    My Top Movies
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+
+
+    <div class="container mt-5">
     {% if current_user.is_authenticated: %}
-        <h1 class="text-center">Welcome to Your Top 10 Movies, {{ current_user.name }}!</h1>
+        <h1 class="text-center">Welcome to Your Top Movies, {{ current_user.name }}!</h1>
         <p class="lead text-center">Discover your favorite movies and explore new ones!</p>
+        <div class="text-center mt-3">
+                <a href="{{ url_for('all_movies') }}" class="btn btn-primary btn-lg" style="background-color: orange; color:black; border-width: 0;">
+                    Go to your Top Movies !
+                </a>
+        </div>
+
     {% else: %}
-        <h1 class="text-center">Welcome to My Top 10 Movies!</h1>
-        <p class="lead text-center">Discover your favorite movies and explore new ones!</p>
+        <div class="d-flex flex-column align-items-center">
+            <h1 class="text-center">Welcome to My Top Movies!</h1>
+            <p class="lead text-center">Discover your favorite movies and explore new ones!</p>
+            <button type="button" class="btn btn-primary btn-lg mt-3" style="background-color: orange;
+                                                                               color:black;
+                                                                               border-width: 0;
+                                                                               " data-bs-toggle="modal"
+                    data-bs-target="#signupModal">
+                Get Started !
+            </button>
+        </div>
     {% endif %}
-</div>
+    </div>
+
+
+
+    <div class="container px-4 py-5" id="hanging-icons">
+        <h2 class="orange-title">MY TOP MOVIES LETS YOU...</h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-transparent text-white flex-shrink-0 me-3 border-white ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                         class="bi bi-star-half" viewBox="0 0 16 16">
+                        <path fill="#FFA500"
+                              d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                        <path fill="#FFA500" stroke="#FFA500" stroke-width="0.3"
+                              d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 style="font-size: 24px;">Rate & Review Your Favorites</h2>
+                    <p>Give movies a personal rating out of 10 and write your own review.</p>
+                </div>
+            </div>
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-dark text-dark flex-shrink-0 me-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="33" fill="currentColor"
+                         class="bi bi-pin-angle-fill" viewBox="0 0 16 16">
+                        <path fill="#FFA500"
+                              d="M9.828.722a.5.5 0 0 1 .354.146l4.95 4.95a.5.5 0 0 1 0 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a6 6 0 0 1 .16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 0 1-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707s.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 0 1 0-.707c.688-.688 1.673-.767 2.375-.72a6 6 0 0 1 1.013.16l3.134-3.133a3 3 0 0 1-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 0 1 .353-.146"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 style="font-size: 24px;">Keep Track of Your Top Movies</h2>
+                    <p>Build your personalized movie list and reorder it based on your
+                        <ratings class=""></ratings>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-dark text-dark flex-shrink-0 me-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="33 " fill="currentColor"
+                         class="bi bi-film" viewBox="0 0 16 16">
+                        <path fill="#FFA500"
+                              d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zm-2 3v2h2v-2zM15 1h-2v2h2zm-2 3v2h2V4zm2 3h-2v2h2zm-2 3v2h2v-2zm2 3h-2v2h2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 style="font-size: 24px;">See Movie Details Instantly</h2>
+                    <p>Access movie posters, descriptions, and release years powered by an external API.
+                        <ratings class=""></ratings>
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-dark text-dark flex-shrink-0 me-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="33" fill="currentColor"
+                         class="bi bi-search" style="color:white" viewBox="0 0 16 16">
+                        <path fill="#FFA500"
+                              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 style="font-size: 24px;">Search & Add Movies</h2>
+                    <p>Find and add movies from a vast database with just a few clicks.</p>
+                </div>
+            </div>
+
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-dark text-dark flex-shrink-0 me-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="33" fill="currentColor"
+                         class="bi bi-pencil" viewBox="0 0 16 16">
+                        <path fill="#FFA500"
+                              d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 style="font-size: 24px;">Edit & Update Anytime</h2>
+                    <p>Change your ratings and reviews anytime to reflect your latest opinions.
+                        <ratings class=""></ratings>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col d-flex align-items-start">
+                <div class="icon-square bg-dark text-dark flex-shrink-0 me-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="33" fill="currentColor"
+                         class="bi bi-trash" viewBox="0 0 16 16">
+                        <path fill="#FFA500"
+                              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                        <path fill="#FFA500"
+                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 style="font-size: 24px;">Remove Movies Easily</h2>
+                    <p>Keep your list clean by deleting movies you no longer want to track.
+                        <ratings class=""></ratings>
+                    </p>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 py-5" id="hanging-icons">
+        <h2 class="orange-title">AND THE OSCAR GOES TO...</h2>
+            <!-- Afișează rezultatele ca un grid de carduri -->
+            {% if options %}
+            <div class="movies-grid">
+                {% for movie in options %}
+                <div class="card card-light-dark">
+                    <div class="front front-light" style="background-image: url('{{ "https://image.tmdb.org/t/p/w500" ~ movie.poster_path if movie.poster_path else "/static/default-movie.jpg" }}');">
+                    </div>
+                    <div class="back back-dark">
+                        <div>
+                            <div class="title">{{ movie.title }} <span class="release_date">({{ movie.release_date if movie.release_date else "N/A" }})</span></div>
+                        <div class="rating">
+                                <label>{{  movie.vote_average | round(1) }}</label>
+                                <i class="fas fa-star star"></i>
+                        </div>
+                            <p class="overview">{{ movie.overview[:100] if movie.overview else "No description available." }}...</p>
+
+                            {% if current_user.is_authenticated %}
+                                    <!-- User logat: merge la selectare film -->
+                                    <a href="{{ url_for('find_movie',id=movie.id) }}" class="button button-dark">Select</a>
+                                {% else %}
+                                    <!-- User nelogat: deschide modalul de login -->
+                                    <a href="{{ url_for('home', flash_login='true') }}" class="button button-dark">Select</a>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                <p class="text-white">No results found. Try another title.</p>
+            {% endif %}
+    </div>
+
+     <div class="container px-4 py-5" id="hanging-icons">
+        <h2 class="orange-title">Trending movies </h2>
+            <!-- Afișează rezultatele ca un grid de carduri -->
+            {% if popular %}
+            <div class="movies-grid">
+                {% for movie in popular %}
+                <div class="card card-light-dark">
+                    <div class="front front-light" style="background-image: url('{{ "https://image.tmdb.org/t/p/w500" ~ movie.poster_path if movie.poster_path else "/static/default-movie.jpg" }}');">
+                    </div>
+                    <div class="back back-dark">
+                        <div>
+                            <div class="title">{{ movie.title }} <span class="release_date">({{ movie.release_date if movie.release_date else "N/A" }})</span></div>
+                        <div class="rating">
+                                <label>{{ movie.vote_average | round(1) }}</label>
+                                <i class="fas fa-star star"></i>
+                        </div>
+                            <p class="overview">{{ movie.overview[:100] if movie.overview else "No description available." }}...</p>
+
+                            {% if current_user.is_authenticated %}
+                                    <!-- User logat: merge la selectare film -->
+                                    <a href="{{ url_for('find_movie',id=movie.id) }}" class="button button-dark">Select</a>
+                                {% else %}
+                                    <!-- User nelogat: deschide modalul de login -->
+                                    <a href="{{ url_for('home', flash_login='true') }}" class="button button-dark">Select</a>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                <p class="text-white">No results found. Try another title.</p>
+            {% endif %}
+
+    </div>
+
 {% endblock %}

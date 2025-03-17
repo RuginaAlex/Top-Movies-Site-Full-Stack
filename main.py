@@ -9,14 +9,17 @@ from sqlalchemy import Integer, String, Float, desc
 from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.fields.numeric import FloatField
+from wtforms.validators import DataRequired, NumberRange
 import requests
+from datetime import datetime, timedelta
+import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
 Bootstrap5(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///top-films.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -24,6 +27,7 @@ db = SQLAlchemy(app)
 MOVIE_DB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
 MOVIE_DB_INFO_URL = "https://api.themoviedb.org/3/movie"
 MOVIE_DB_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
+MOVIE_TRENDING_WEEK = "https://api.themoviedb.org/3/trending/movie/week?language=en-US"
 
 
 
@@ -86,7 +90,7 @@ def login():
 
         else:
             login_user(user)
-            return redirect(url_for("all_movies"))
+            return redirect(url_for("home"))
 
     return redirect(url_for("home"))
 
@@ -97,31 +101,46 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/register", methods = ["GET","POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        if request.form.get("password") == request.form.get("confirm-password"):
-            hash_and_salted_password = generate_password_hash(
-                request.form.get("password"),
-                method='pbkdf2:sha256',
-                salt_length=8
-            )
+        email = request.form.get("email")
+        name = request.form.get("name")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm-password")
+
+        # Verifică dacă email-ul există deja
+        existing_user = db.session.execute(db.select(User).where(User.email == email)).scalar()
+        if existing_user:
+            flash("This email is already registered. Please log in or use a different email.", "signup-error")
+            return redirect(url_for("home"))  # Redirectează la pagina principală unde ai modalul de signup
+
+        if password == confirm_password:
+            hash_and_salted_password = generate_password_hash(password, method="pbkdf2:sha256", salt_length=8)
 
             new_user = User(
-                email = request.form.get("email"),
-                name = request.form.get("name"),
-                password = hash_and_salted_password
+                email=email,
+                name=name,
+                password=hash_and_salted_password
             )
+
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
-            return redirect(url_for("all_movies", current_user=current_user))
-    return render_template(url_for("all_movies", current_user=current_user))
+
+            return redirect(url_for("all_movies"))
+
+    return redirect(url_for("home"))
 
 
 @app.route("/")
-def     home():
-    return render_template("index.html")
+def home():
+    year = datetime.now().year
+    movies = oscar_movies()
+    popular_movies = top_movies_this_week()
+    if request.args.get("flash_login") == "true":
+        flash("You need to log in to add this movie to your top.", "login-error")
+    return render_template("index.html", options=movies, popular=popular_movies, year=year)
 @app.route("/all-movies")
 @login_required
 def all_movies():
@@ -137,7 +156,8 @@ def all_movies():
 
 
 class RateMovieForm(FlaskForm):
-    rating = StringField("Your Rating Out of 10 e.g. 7.5")
+    rating = FloatField("Your Rating Out of 10 e.g. 7.5", validators=[NumberRange(min=1, max=10,
+                                                                                           message="Rating must be between 1 and 10.")])
     review = StringField("Your Review")
     submit = SubmitField("Done", render_kw={"class": "btn-signup", "id": "addButton"})
 
@@ -147,12 +167,17 @@ def edit():
     form = RateMovieForm()
     movie_id = request.args.get('id')
     movie_to_update = db.get_or_404(Movie, movie_id)
+
     if form.validate_on_submit():
-        movie_to_update.rating = float(form.rating.data)
-        movie_to_update.review = form.review.data
-        db.session.commit()
-        return redirect(url_for('all_movies'))
-    return render_template("edit.html", form=form, movie = movie_to_update)
+        try:
+            movie_to_update.rating = float(form.rating.data)  # Conversie explicită
+            movie_to_update.review = form.review.data
+            db.session.commit()
+            return redirect(url_for('all_movies'))
+        except ValueError:
+            flash("Invalid rating value. Please enter a number between 1 and 10.", "error")
+
+    return render_template("edit.html", form=form, movie=movie_to_update)
 
 @app.route('/delete')
 def delete():
@@ -177,7 +202,7 @@ def add_movie():
 
     if form.validate_on_submit():
         movie_title = form.title.data
-        response = requests.get(MOVIE_DB_SEARCH_URL, params={"api_key": "c1da5421745044499c12a47565f7662f", "query": movie_title})
+        response = requests.get(MOVIE_DB_SEARCH_URL, params={"api_key": os.getenv('TMDB_API_KEY'), "query": movie_title})
         data = response.json()["results"]
         return render_template("select.html", options=data)
 
@@ -190,7 +215,7 @@ def find_movie():
     movie_api_id = request.args.get("id")
     if movie_api_id:
         movie_api_url = f"{MOVIE_DB_INFO_URL}/{movie_api_id}"
-        response = requests.get(movie_api_url, params={"api_key": "c1da5421745044499c12a47565f7662f"})
+        response = requests.get(movie_api_url, params={"api_key": os.getenv('TMDB_API_KEY')})
         data = response.json()
 
         existing_movie = db.session.execute(
@@ -217,6 +242,34 @@ def find_movie():
         return redirect(url_for('edit', id=new_movie.id))
 
 
+
+
+# From here, we will find movies with the API for certain needs
+oscar = ["Anora","Conclave","The Brutalist","A Complete Unknown"]
+
+def oscar_movies():
+    results = []
+    for movie in oscar:
+        movie_title = movie
+        response = requests.get(MOVIE_DB_SEARCH_URL, params={"api_key": os.getenv('TMDB_API_KEY'), "query": movie_title})
+        data = response.json()["results"]
+        if data:
+            first_movie = data[0]
+            results.append(first_movie)
+    return results
+
+
+def top_movies_this_week():
+
+    response = requests.get(MOVIE_TRENDING_WEEK, params={"api_key": os.getenv('TMDB_API_KEY')})
+    data = response.json().get("results", [])
+    sorted_movies = sorted(data, key=lambda x: x.get('popularity', 0), reverse=True)
+    return sorted_movies[:12]
+
+
+@app.route("/about")
+def about():
+    return render_template('about.html')
 
 if __name__ == '__main__':
     app.run(debug=True,port= 8081)
