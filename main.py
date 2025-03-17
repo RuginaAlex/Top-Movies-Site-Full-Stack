@@ -66,8 +66,10 @@ class User(UserMixin, db.Model):
     movies = relationship("Movie", back_populates="reviewer")
     # CREATE DB
 
-with app.app_context():
-    db.create_all()
+if os.getenv("FLASK_ENV") != "production":
+    with app.app_context():
+        db.create_all()
+
 
 
 @app.route("/login",methods = ["GET", "POST"])
