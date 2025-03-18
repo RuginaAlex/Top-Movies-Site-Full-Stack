@@ -588,41 +588,126 @@
 }
 
 
-/* Resposive si pentru alte dispozitive */
+/* 📌 HEADER pe Desktop (≥ 992px) */
+.custom-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #222;
+    z-index: 1000;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-
-@media (max-width: 991px) { /* Tablete și telefoane mari */
-    header {
-        flex-direction: column;
-        text-align: center;
-    }
-
+/* Pe desktop, meniul și butoanele rămân vizibile */
+@media (min-width: 992px) {
     .nav {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-
-    .nav li {
-        margin-bottom: 5px;
+        display: flex !important;
     }
 
     .text-end {
-        text-align: center !important;
-        justify-content: center !important;
+        display: flex !important;
     }
-}
 
-@media (max-width: 768px) { /* Telefoane */
-    header {
-        padding: 10px 15px;
+    .mobile-sidebar {
+        display: none !important;
     }
 
     .btn-login, .btn-signup {
-        width: 100%;
+        display: inline-block !important;
+    }
+}
+
+/* 📌 PE MOBILE (≤ 768px) */
+@media (max-width: 768px) {
+    /* 🟢 Header-ul NU mai e sticky */
+    .custom-header {
+        position: relative;
+        padding: 10px 15px;
     }
 
+    /* 🟢 Ascunde meniul normal */
     .nav {
-        flex-direction: column;
+        display: none;
+    }
+
+    /* 🟢 Butoanele Login / Sign-up pe mobil */
+    .btn-login, .btn-signup {
+        width: 100%;
+    }
+}
+
+/* 📌 BUTON ☰ MENIU MOBIL */
+#mobile-menu-button {
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    position: absolute;
+    right: 20px; /* Mută butonul în dreapta */
+    top: 50%;
+    transform: translateY(-50%);
+    display: none; /* Ascuns pe desktop */
+}
+
+@media (max-width: 768px) {
+    #mobile-menu-button {
+        display: block; /* Vizibil doar pe mobil */
+    }
+}
+
+/* 📌 SIDEBAR MOBIL */
+.mobile-sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px; /* Inițial ascuns */
+    width: 250px;
+    height: 100%;
+    background: #333;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    transition: right 0.3s ease-in-out;
+}
+
+.mobile-sidebar.open {
+    right: 0;
+}
+
+/* 📌 Buton "X" în Sidebar */
+.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* 📌 Linkuri în Sidebar */
+.mobile-sidebar a {
+    padding: 12px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mobile-sidebar a:hover {
+    background: #444;
+}
+
+/* 📌 Butoane Login/Signup în Sidebar */
+@media (max-width: 768px) {
+    .mobile-sidebar .btn {
+        margin-top: 10px;
+        width: 100%;
     }
 }
