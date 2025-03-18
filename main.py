@@ -232,7 +232,7 @@ def find_movie():
         new_movie = Movie(
             title=data["title"],
             year=data["release_date"].split("-")[0],
-            description=data["overview"],
+            description=data["overview"][:250],
             rating=0,
             ranking=data["popularity"],
             review="Write some",
