@@ -17,11 +17,12 @@
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="{{url_for('home')}}" class="nav-link px-2 link-secondary text-white">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
                 {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('all_movies') }}" class="nav-link px-2 text-top-movies">Your Top Movies</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('home', flash_login='movies_login') }}" class="nav-link px-2 text-top-movies">Your Top Movies</a></li>
                 {% endif %}
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+{#                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>#}
                 <li><a href="{{ url_for('about') }}" class="nav-link px-2 text-white" >About</a></li>
             </ul>
 

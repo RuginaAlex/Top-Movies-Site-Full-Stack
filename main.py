@@ -140,6 +140,8 @@ def home():
     popular_movies = top_movies_this_week()
     if request.args.get("flash_login") == "true":
         flash("You need to log in to add this movie to your top.", "login-error")
+    elif request.args.get("flash_login") == "movies_login":
+        flash("You need to log in to access your top movies.", "login-error")
     return render_template("index.html", options=movies, popular=popular_movies, year=year)
 @app.route("/all-movies")
 @login_required

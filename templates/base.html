@@ -44,10 +44,14 @@
 
 
   </head>
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     {% include 'header.html' %}
-    {% block content %}{% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <main class="flex-grow-1">
+        {% block content %}{% endblock %}
+    </main>
+
     {% include 'footer.html' %}
-  </body>
+</body>
+
 </html>
