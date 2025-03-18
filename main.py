@@ -274,4 +274,6 @@ def about():
     return render_template('about.html')
 
 if __name__ == '__main__':
+    print("Registered routes:")
+    print(app.url_map)
     app.run(debug=True,port= 8081)
