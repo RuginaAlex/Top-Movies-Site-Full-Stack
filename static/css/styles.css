@@ -689,6 +689,21 @@
     color: white;
     cursor: pointer;
 }
+/* Titlu centrat în header pe mobil */
+.mobile-title {
+    font-size: 1.6rem;  /* Mai mare */
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    flex-grow: 1;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap; /* Evită spargerea pe două linii */
+}
+
 
 /* 📌 Linkuri în Sidebar */
 .mobile-sidebar a {
