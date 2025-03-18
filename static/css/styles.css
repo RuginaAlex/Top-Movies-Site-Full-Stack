@@ -586,3 +586,43 @@
         font-size: 1.3rem;
     }
 }
+
+
+/* Resposive si pentru alte dispozitive */
+
+
+@media (max-width: 991px) { /* Tablete și telefoane mari */
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .nav li {
+        margin-bottom: 5px;
+    }
+
+    .text-end {
+        text-align: center !important;
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 768px) { /* Telefoane */
+    header {
+        padding: 10px 15px;
+    }
+
+    .btn-login, .btn-signup {
+        width: 100%;
+    }
+
+    .nav {
+        flex-direction: column;
+    }
+}

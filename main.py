@@ -48,7 +48,7 @@ class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     reviewer_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id"))
     reviewer = relationship("User", back_populates="movies")
-    title = db.Column(db.String(250), unique=True, nullable=False)
+    title = db.Column(db.String(250), nullable=False)
     year = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(250), nullable=False)
     rating = db.Column(db.Float, nullable=False)

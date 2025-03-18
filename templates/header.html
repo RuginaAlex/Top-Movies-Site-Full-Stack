@@ -8,7 +8,7 @@
 </head>
 <body style="padding-top:82px">
     <div class="container">
-        <header class="fixed-top container d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom bg-dark" style="width:66.6%">
+        <header class="fixed-top container-fluid d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom bg-dark px-3">
             <div class="col-md-3 mb-2 mb-md-0">
                 <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
                     <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
@@ -27,7 +27,7 @@
             </ul>
 
             {% if not current_user.is_authenticated %}
-                <div class="col-md-3 text-end" style="padding-left:120px">
+                <div class="col-md-3 text-end d-flex justify-content-end align-items-center gap-2">
                     <button type="button" class="btn btn-outline-primary btn-login" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
                     <button type="button" class="btn btn-primary btn-signup" data-bs-toggle="modal" data-bs-target="#signupModal">Sign-up</button>
                 </div>
