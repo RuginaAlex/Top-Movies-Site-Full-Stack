@@ -146,7 +146,7 @@ def home():
 @app.route("/all-movies")
 @login_required
 def all_movies():
-    result = db.session.execute(db.select(Movie).order_by(Movie.rating))
+    result = db.session.execute(db.select(Movie).where(Movie.reviewer_id == current_user.id).order_by(Movie.rating))
     movies = result.scalars().all()
 
     for i in range(len(movies)):
