@@ -37,10 +37,10 @@
                     <button type="button" class="btn btn-primary btn-signup" data-bs-toggle="modal" data-bs-target="#signupModal">Sign-up</button>
         </div>
     {% else %}
-        <div class="col-md-3 text-end">
-            <a href="{{ url_for('logout') }}" class="btn btn-primary btn-signup">Log out</a>
-        </div>
-    {% endif %}
+    <div class="col-md-3 text-end d-none d-md-flex">
+        <a href="{{ url_for('logout') }}" class="btn btn-primary btn-signup">Log out</a>
+    </div>
+{% endif %}
 
     <div class="mobile-title d-md-none">
         My Top Movies
