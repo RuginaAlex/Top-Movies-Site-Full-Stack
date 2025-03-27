@@ -10,7 +10,7 @@ from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import StringField, SubmitField
 from wtforms.fields.numeric import FloatField
-from wtforms.validators import DataRequired, NumberRange
+from wtforms.validators import DataRequired, NumberRange, ValidationError, InputRequired
 import requests
 from datetime import datetime, timedelta
 import os
@@ -155,12 +155,21 @@ def all_movies():
 
     return render_template("all-movies.html", movies=movies)
 
+def valid_float(form, field):
+    try:
+        field.data = float(field.data)
+    except (ValueError, TypeError):
+        raise ValidationError("Please enter a valid number between 1 and 10.")
+
 
 
 class RateMovieForm(FlaskForm):
-    rating = FloatField("Your Rating Out of 10 e.g. 7.5", validators=[NumberRange(min=1, max=10,
-                                                                                           message="Rating must be between 1 and 10.")])
-    review = StringField("Your Review")
+    rating = StringField("Your Rating Out of 10 e.g. 7.5", validators=[
+        InputRequired(message="Rating is required."),
+        valid_float,
+        NumberRange(min=1, max=10, message="Rating must be between 1 and 10.")
+    ])
+    review = StringField("Your Review",validators=[DataRequired(message="The review field cannot be empty.")])
     submit = SubmitField("Done", render_kw={"class": "btn-signup", "id": "addButton"})
 
 
@@ -204,9 +213,11 @@ def add_movie():
 
     if form.validate_on_submit():
         movie_title = form.title.data
-        response = requests.get(MOVIE_DB_SEARCH_URL, params={"api_key": os.getenv('TMDB_API_KEY'), "query": movie_title})
+        response = requests.get(MOVIE_DB_SEARCH_URL,
+                                params={"api_key": os.getenv('TMDB_API_KEY'), "query": movie_title})
         data = response.json()["results"]
-        return render_template("select.html", options=data)
+        filtered_data = [movie for movie in data if movie.get("poster_path")]
+        return render_template("select.html", options=filtered_data)
 
     return render_template("add.html", form=form)
 
@@ -219,6 +230,7 @@ def find_movie():
         movie_api_url = f"{MOVIE_DB_INFO_URL}/{movie_api_id}"
         response = requests.get(movie_api_url, params={"api_key": os.getenv('TMDB_API_KEY')})
         data = response.json()
+        print(data)
 
         existing_movie = db.session.execute(
             db.select(Movie).where(Movie.title == data["title"], Movie.reviewer_id == current_user.id)
@@ -228,14 +240,17 @@ def find_movie():
             flash("This movie is already in your list!", "movies-error")
             return redirect(url_for("all_movies"))  # Redirectează înapoi la all-movies.html
 
+        description = data["overview"][:500]
+        if "..." in description:
+            description = description.replace("...",".")
 
         new_movie = Movie(
             title=data["title"],
             year=data["release_date"].split("-")[0],
-            description=data["overview"][:250],
-            rating=0,
+            description=description,
+            rating=data["vote_average"],
             ranking=data["popularity"],
-            review="Write some",
+            review="No written review yet!",
             img_url=f"{MOVIE_DB_IMAGE_URL}{data['poster_path']}",
             reviewer_id=current_user.id
         )
@@ -274,6 +289,4 @@ def about():
     return render_template('about.html')
 
 if __name__ == '__main__':
-    print("Registered routes:")
-    print(app.url_map)
     app.run(debug=True,port= 8081)

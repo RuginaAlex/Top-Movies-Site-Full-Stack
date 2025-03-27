@@ -155,7 +155,15 @@
                                 <label>{{  movie.vote_average | round(1) }}</label>
                                 <i class="fas fa-star star"></i>
                         </div>
-                            <p class="overview">{{ movie.overview[:100] if movie.overview else "No description available." }}...</p>
+
+                            {% if movie.overview %}
+                                {% set short = movie.overview[:500].replace("...", ".") %}
+                                <p class="overview">
+                                    {{ short }}{% if movie.overview|length > 500 %}...{% endif %}
+                                </p>
+                            {% else %}
+                                <p class="overview">No description available.</p>
+                            {% endif %}
 
                             {% if current_user.is_authenticated %}
                                     <!-- User logat: merge la selectare film -->
@@ -190,7 +198,15 @@
                                 <label>{{ movie.vote_average | round(1) }}</label>
                                 <i class="fas fa-star star"></i>
                         </div>
-                            <p class="overview">{{ movie.overview[:100] if movie.overview else "No description available." }}...</p>
+
+                            {% if movie.overview %}
+                                {% set short = movie.overview[:500].replace("...", ".") %}
+                                <p class="overview">
+                                    {{ short }}{% if movie.overview|length > 500 %}...{% endif %}
+                                </p>
+                            {% else %}
+                                <p class="overview">No description available.</p>
+                            {% endif %}
 
                             {% if current_user.is_authenticated %}
                                     <!-- User logat: merge la selectare film -->

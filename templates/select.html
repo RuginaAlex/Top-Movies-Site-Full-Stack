@@ -9,9 +9,8 @@
     {% if options %}
     <div class="movies-grid">
         {% for movie in options %}
-        <div class="card card-dark">
-            <div class="front front-dark" style="background-image: url('{{ "https://image.tmdb.org/t/p/w500" ~ movie.poster_path if movie.poster_path else "/static/default-movie.jpg" }}');">
-                <p class="large">{{ movie.title }}</p>
+        <div class="card card-light-dark">
+            <div class="front front-light" style="background-image: url('{{ "https://image.tmdb.org/t/p/w500" ~ movie.poster_path if movie.poster_path else "/static/default-movie.jpg" }}');">
             </div>
             <div class="back back-dark">
                 <div>

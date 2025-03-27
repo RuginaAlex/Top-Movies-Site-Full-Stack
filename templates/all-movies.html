@@ -4,49 +4,135 @@
 
 {% block content %}
 <div class="container">
-  <h1 class="heading-dark">All Movies</h1>
-  <p class="description-dark">Here is a list of all movies sorted by rating.</p>
-    <!-- Flash Messages (Evităm mesajele de login) -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <div class="container">
-            {% for category, message in messages %}
-                {% if category != "login-error" %}  {# Evităm mesajele de login aici #}
-                <div class="alert alert-danger text-center" role="alert">
-                    {{ message }}
-                </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% endif %}
-    {% endwith %}
 
-  {% for movie in movies %}
-  <div class="card card-dark">
-    <div class="front front-dark" style="background-image: url('{{ movie.img_url }}');">
-        <p class="large">{{ movie.ranking }}</p>
+  <!-- Titlu + butoane vizualizare -->
+  <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+    <div>
+      <h1 class="heading-dark m-0">All Movies</h1>
+      <p class="description-dark m-0">Here is a list of all movies sorted by rating.</p>
     </div>
-    <div class="back back-dark">
-        <div>
-            <div class="title">{{ movie.title }} <span class="release_date">({{ movie.year }})</span></div>
-            <div class="rating">
-                <label>{{ movie.rating }}</label>
-                <i class="fas fa-star star"></i>
+    <div class="view-toggle mt-2 mt-md-0">
+      <button id="listViewBtn" class="btn btn-secondary me-2">
+          <i class="bi bi-list"></i>
+      </button>
+        <button id="gridViewBtn" class="btn btn-secondary">
+            <i class="bi bi-grid-3x3-gap"></i>
+        </button>
+
+    </div>
+  </div>
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container">
+        {% for category, message in messages %}
+          {% if category != "login-error" %}
+            <div class="alert alert-danger text-center" role="alert">
+              {{ message }}
             </div>
-            <p class="review">"{{ movie.review }}"</p>
-            <p class="overview">{{ movie.description }}</p>
-            <a href="{{url_for('edit', id=movie.id)}}" class="button button-dark">Update</a>
-            <a href="{{url_for('delete', id=movie.id)}}" class="button button-dark delete-button">Delete</a>
-        </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="movies-grid">
+  {% for movie in movies %}
+    <div class="card card-dark card-grid">
+      <div class="front front-dark" style="background-image: url('{{ movie.img_url }}');">
+          <p class="large">{{ movie.ranking }}</p>
+      </div>
+      <div class="back back-dark">
+          <div>
+              <div class="title">{{ movie.title }} <span class="release_date">({{ movie.year }})</span></div>
+              <div class="rating">
+                  <label>{{ movie.rating|int if movie.rating.is_integer() else movie.rating }}</label>
+                  <i class="fas fa-star star"></i>
+              </div>
+              <p class="review">"{{ movie.review }}"</p>
+              <p class="overview">{{ movie.description.replace("...", ".") }}</p>
+              <a href="{{url_for('edit', id=movie.id)}}" class="button button-dark">Update</a>
+              <a href="{{url_for('delete', id=movie.id)}}" class="button button-dark delete-button">Delete</a>
+          </div>
+      </div>
     </div>
+  {% endfor %}
 </div>
 
-  {% endfor %}
 <div class="container text-center add-dark" style="position: relative;margin-top: 50px;">
     <a href="{{url_for('add_movie')}}" class="button-add" id="addButton">Add Movie</a>
     <div class="popcorn-bucket"></div> <!-- Punga de popcorn la hover -->
 </div>
 </div>
+
+<script>
+  const gridBtn = document.getElementById("gridViewBtn");
+  const listBtn = document.getElementById("listViewBtn");
+  const moviesGrid = document.querySelector(".movies-grid");
+  const cards = () => Array.from(moviesGrid.querySelectorAll(".card-grid"));
+
+  function activateButton(activeBtn, inactiveBtn) {
+    activeBtn.style.backgroundColor = "orange";
+    activeBtn.style.color = "black";
+    inactiveBtn.style.backgroundColor = "";
+    inactiveBtn.style.color = "";
+  }
+
+  function animateFlipTransition(changeViewCallback) {
+    const cardElements = cards();
+    const firstRects = new Map();
+
+    cardElements.forEach(card => {
+      firstRects.set(card, card.getBoundingClientRect());
+    });
+
+    // Executăm schimbarea layout-ului (grid/list)
+    changeViewCallback();
+
+    requestAnimationFrame(() => {
+      cardElements.forEach(card => {
+        const lastRect = card.getBoundingClientRect();
+        const firstRect = firstRects.get(card);
+        const dx = firstRect.left - lastRect.left;
+        const dy = firstRect.top - lastRect.top;
+        const scaleX = firstRect.width / lastRect.width;
+        const scaleY = firstRect.height / lastRect.height;
+
+        card.style.transform = `translate(${dx}px, ${dy}px) scale(${scaleX}, ${scaleY})`;
+        card.style.transition = "transform 0s";
+      });
+
+      requestAnimationFrame(() => {
+        cardElements.forEach(card => {
+          card.style.transition = "transform 500ms ease";
+          card.style.transform = "";
+        });
+      });
+    });
+  }
+
+  gridBtn.addEventListener("click", () => {
+    animateFlipTransition(() => {
+      moviesGrid.classList.remove("list-view");
+      moviesGrid.classList.add("grid-view");
+      activateButton(gridBtn, listBtn);
+    });
+  });
+
+  listBtn.addEventListener("click", () => {
+    animateFlipTransition(() => {
+      moviesGrid.classList.remove("grid-view");
+      moviesGrid.classList.add("list-view");
+      activateButton(listBtn, gridBtn);
+    });
+  });
+
+  // Activăm butonul inițial și setăm stilul
+  activateButton(listBtn, gridBtn);
+  moviesGrid.classList.add("list-view");
+</script>
+
 
 
 
