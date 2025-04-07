@@ -50,7 +50,7 @@ class Movie(db.Model):
     reviewer = relationship("User", back_populates="movies")
     title = db.Column(db.String(250), nullable=False)
     year = db.Column(db.Integer, nullable=False)
-    description = db.Column(db.String(250), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
     rating = db.Column(db.Float, nullable=False)
     ranking = db.Column(db.Integer, nullable=False)
     review = db.Column(db.String(250), nullable=False)
