@@ -23,7 +23,8 @@ Deployed with [Render](https://render.com/), this project also features user aut
 
 ---
 
-## 🖼️ Screenshots
+## 🖼️ Screenshots  
+*Click any image to view it in full size.*
 
 
 | 🏠 Home Page (Not Logged In) | 🏆 Oscar & Trending Movies |
