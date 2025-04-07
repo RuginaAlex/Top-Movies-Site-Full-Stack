@@ -28,15 +28,15 @@ Deployed with [Render](https://render.com/), this project also features user aut
 
 | 🏠 Home Page (Not Logged In) | 🏆 Oscar & Trending Movies |
 |-----------------------------|----------------------------|
-| `ss/home_guest.png`         | `ss/oscar_trending.png`   |
+| ![](ss/home_guest.png)      | ![](ss/oscar_trending.png) |
 
-| 🔍 Search & Add Movies | ✅ Add to Top |
-|------------------------|--------------|
-| `ss/search.png`        | `ss/select_movie.png` |
+| 🔍 Search & Add Movies       | ✅ Add to Top              |
+|-----------------------------|----------------------------|
+| ![](ss/search.png)          | ![](ss/select_movie.png)  |
 
-| 🎞️ Your Top Movies (List View) | 🧾 Edit Rating |
-|--------------------------------|----------------|
-| `ss/top_movies_list.png`       | `ss/edit.png`  |
+| 🎞️ Your Top Movies (List View) | 🧾 Edit Rating         |
+|--------------------------------|------------------------|
+| ![](ss/top_movies_list.png)    | ![](ss/edit.png)       |
 
 ---
 
@@ -129,14 +129,8 @@ If you’d like to contribute, open a pull request or reach out via:
 
 ---
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
----
-
 ## 🔗 Credits
 
 Movie data provided by [TMDB API](https://www.themoviedb.org/documentation/api)  
 Icons by [Bootstrap Icons](https://icons.getbootstrap.com/)  
-Project built with ❤️ by **Mircea Alexandru Rugină**
+Project built by **Mircea-Alexandru Rugină**
