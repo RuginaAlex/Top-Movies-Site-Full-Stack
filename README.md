@@ -1,5 +1,9 @@
 # 🎬 My Top Movies
 
+
+🚀 **Try it out here → [my-top-movies-cf1r.onrender.com](https://my-top-movies-cf1r.onrender.com)**  
+
+
 **My Top Movies** is a full-stack Flask web application that lets users search for films via the [TMDB API](https://www.themoviedb.org/), crate a personalized top movie list, and manage reviews and ratings in a clean and responsive UI.
 
 Deployed with [Render](https://render.com/), this project also features user authentication, API integration, dark mode styling, and custom UI animations.
@@ -40,20 +44,23 @@ Deployed with [Render](https://render.com/), this project also features user aut
 | ![](presentation/ss/top_movies_list.png)    | ![](presentation/ss/edit.png)       |
 
 ---
+## 🎥 Demo Video
 
-## 🎥 Optional Demo Video
+Want to see it in action? This demo shows some of the features this site has:
 
-👉 Add a 30-60s screen recording of:
-- Searching for a movie
-- Adding it to your list
-- Editing rating/review
-- Logging out
+📽️ [Watch the demo](presentation/demo/demo.mp4) – *(local GitHub file)*
 
-You can record it with:
-- **OBS Studio**, **Loom**, or **Screenity** (Chrome extension)
-- Save as `.mp4` or convert to `.gif` with ezgif.com
+### 🧪 Features demonstrated:
+- 🧾 Creating an account
+- 🔎 Searching for movies via TMDB API
+- 🎞️ Adding movies from both *search* and *trending/Oscar* sections
+- ✏️ Editing ratings and reviews
+- 🗑️ Deleting movies from your top list
+- 🧩 Sorting view: *list* vs. *grid*
+- 🚪 Logging out
+- 🔐 Testing restricted access when logged out (add/top page)
 
-Upload to GitHub repo under `/demo/demo.mp4` or embed from YouTube.
+> 💡 *Click the link to open the video in full screen.*
 
 ---
 
@@ -61,15 +68,18 @@ Upload to GitHub repo under `/demo/demo.mp4` or embed from YouTube.
 
 ### ✅ Prerequisites
 
-- Python 3.x
-- `pip` or `venv`
-- TMDB API Key (get one [here](https://www.themoviedb.org/documentation/api))
-- `.env` file with:
+- Python 3.x  
+- `pip` or `venv`  
+- TMDB API Key (get one [here](https://www.themoviedb.org/documentation/api))  
+- Set the following **environment variables** in your IDE or deployment platform:
 
-```env
+```bash
 FLASK_SECRET_KEY=your-secret-key
 TMDB_API_KEY=your-tmdb-key
 ```
+
+> 💡 In local development, you can add these in your IDE's run configuration (e.g., PyCharm > Run/Debug Configurations > Environment Variables).
+
 
 ---
 
@@ -86,23 +96,7 @@ Visit `http://127.0.0.1:8081` in your browser.
 
 ---
 
-## 📁 Project Structure
 
-```
-my-top-movies/
-├── static/
-│   ├── css/styles.css
-│   └── assets/img/
-├── templates/
-│   ├── base.html, index.html, all-movies.html, ...
-├── instance/
-│   └── top-films.db  (auto-created)
-├── main.py
-├── requirements.txt
-└── README.md
-```
-
----
 
 ## ⚙️ Tech Stack
 
@@ -111,7 +105,7 @@ my-top-movies/
 | Flask       | Backend web framework              |
 | Flask-Login | User authentication                |
 | SQLite      | Lightweight database               |
-| Bootstrap 5 | Frontend styling (dark theme)      |
+| Bootstrap 5 | Frontend styling                   |
 | Jinja2      | HTML templates with logic          |
 | TMDB API    | Fetching movie data                |
 | Render      | Free cloud deployment              |
