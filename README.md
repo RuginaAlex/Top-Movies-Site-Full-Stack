@@ -29,15 +29,15 @@ Deployed with [Render](https://render.com/), this project also features user aut
 
 | 🏠 Home Page (Not Logged In) | 🏆 Oscar & Trending Movies |
 |-----------------------------|----------------------------|
-| ![](ss/home_guest.png)      | ![](ss/oscar_trending.png) |
+| ![](presentation/ss/home_guest.png)      | ![](presentation/ss/oscar_trending.png) |
 
 | 🔍 Search & Add Movies       | ✅ Add to Top              |
 |-----------------------------|----------------------------|
-| ![](ss/search.png)          | ![](ss/select_movie.png)  |
+| ![](presentation/ss/search.png)          | ![](presentation/ss/select_movie.png)  |
 
 | 🎞️ Your Top Movies (List View) | 🧾 Edit Rating         |
 |--------------------------------|------------------------|
-| ![](ss/top_movies_list.png)    | ![](ss/edit.png)       |
+| ![](presentation/ss/top_movies_list.png)    | ![](presentation/ss/edit.png)       |
 
 ---
 
