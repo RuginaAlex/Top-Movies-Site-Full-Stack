@@ -20,7 +20,7 @@ Deployed with [Render](https://render.com/), this project also features user aut
 - 📋 **Top Movies** – Manage your personalized list, sorted by rating.
 - 🖊️ **Edit & Delete** – Modify your ratings or remove a movie anytime.
 - 🧠 **Smart Duplicate Check** – Prevent adding the same movie twice.
-- 🎨 **Responsive UI** – Bootstrap 5 + custom styles, mobile-friendly design.
+- 🎨 **Responsive UI** – Fully optimized for desktop, tablet, and mobile with Bootstrap 5 and custom dark theme.
 - 🍿 **Interactive Effects** – Custom JavaScript animations (like popcorn burst 🎉).
 - 🧪 **API-Driven Content** – Live trending and Oscar-predicted movies from TMDB.
 - 🌍 **Deployed on Render** – With a `/ping` route for UptimeRobot integration.
@@ -56,7 +56,7 @@ Want to see it in action? This demo shows some of the features this site has:
 - 🎞️ Adding movies from both *search* and *trending/Oscar* sections
 - ✏️ Editing ratings and reviews
 - 🗑️ Deleting movies from your top list
-- 🧩 Sorting view: *list* vs. *grid*
+- 🧩 Dynamic sorting view: toggle between *list* and *grid* layouts with smooth animations
 - 🚪 Logging out
 - 🔐 Testing restricted access when logged out (add/top page)
 
