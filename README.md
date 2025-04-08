@@ -48,7 +48,7 @@ Deployed with [Render](https://render.com/), this project also features user aut
 
 Want to see it in action? This demo shows some of the features this site has:
 
-📽️ [Watch the demo](presentation/demo/demo.mp4) – *(local GitHub file)*
+📺 [Watch the demo on YouTube](https://www.youtube.com/watch?v=Ff19muasS8A)
 
 ### 🧪 Features demonstrated:
 - 🧾 Creating an account
