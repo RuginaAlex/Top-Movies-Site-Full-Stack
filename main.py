@@ -262,7 +262,8 @@ def find_movie():
 
 
 # From here, we will find movies with the API for certain needs
-oscar = ["Anora","Conclave","The Brutalist","A Complete Unknown"]
+oscar = ["Bugonia","F1","Frankenstein","Hamnet","Marty Supreme","One Battle After Another","The Secret Agent",
+         "Sentimental Value","Sinners","Train Dreams"]
 
 def oscar_movies():
     results = []
